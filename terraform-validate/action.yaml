@@ -1,0 +1,19 @@
+name: Terraform validate workflow
+description: Runs Terraform validate actions
+outputs:
+  linting:
+    description: Terraform validate output
+    value: ${{ steps.validate.outcome }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Clone repo
+      uses: actions/checkout@v3
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v2
+    - name: Terraform Initialize
+      shell: bash
+      run: terraform init
+    - name: Terraform Validate
+      id: validate
+      uses: dflook/terraform-validate@v1
